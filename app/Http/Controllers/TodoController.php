@@ -31,4 +31,47 @@ class TodoController extends Controller
             'data' => $todo,
         ], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $todo = Todo::find($id);
+        if (!$todo) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tugas tidak ditemukan'
+            ], 404);
+        }
+
+        if ($request->has('title')) {
+            $todo->title = $request->title;
+        }
+
+        if ($request->has('is_completed')) {
+            $todo->is_completed = $request->is_completed;
+        }
+
+        $todo->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tugas berhasil diperbarui!',
+            'data' => $todo
+        ]);
+    }
+    public function destroy($id)
+    {
+        $todo = Todo::find($id);
+        if (!$todo) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tugas tidak ditemukan!',
+            ], 404);
+        }
+        $todo->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tugas berhasil dihapus!',
+        ]);
+    } 
+
 }
