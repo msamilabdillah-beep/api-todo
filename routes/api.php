@@ -10,3 +10,8 @@ Route::get('/user', function (Request $request) {
 Route::get('/hello', function () {
     return response()->json(['status' => 'SUCCESS', 'message' => 'API Laravel pertama kamu berhasil dipanggil!', 'developer' => ['role' => 'Full-Stack Mobile Developer', 'fase' => 1]]);
 });
+
+use App\Http\Controllers\TodoController;
+
+Route::get('/todos', [TodoController::class, 'index']);
+Route::post('/todos', [TodoController::class, 'store']);
